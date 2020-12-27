@@ -1,5 +1,5 @@
 Compile: 
-g++ -o ../bin/fireflow fireflow.cpp capture.cpp process_packet.cpp -lpfring -lpcap
+g++ -o ../bin/fireflow detection.cpp entropy.cpp fireflow.cpp capture.cpp process_packet.cpp -lpfring -lpcap
 
 >>> But before that:
 
