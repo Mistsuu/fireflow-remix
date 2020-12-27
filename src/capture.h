@@ -10,6 +10,7 @@
     #include <spdlog/sinks/rotating_file_sink.h>
     #include "packet.h"
     #include "process_packet.h"
+    #include "detection.h"
 
     using namespace std;
     using namespace spdlog;

@@ -4,6 +4,9 @@
 #include "../include/CLI11.hpp"
 #include "capture.h"
 #include "packet.h"
+#include "process_packet.h"
+#include "detection.h"
+#include "entropy.h"
 using namespace std;
 
 Capture *captureInterface=NULL;

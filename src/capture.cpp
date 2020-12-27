@@ -8,6 +8,7 @@
 #include <pfring.h>
 #include "packet.h"
 #include "capture.h"
+#include "detection.h"
 #include "process_packet.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/rotating_file_sink.h>
@@ -160,7 +161,7 @@ void Capture::parsing_pfring_packet(const struct pfring_pkthdr *header, const u_
     packetQueue.push(currentPacket);
     writeToPacketLogger(currentPacket);
     if (packetQueue.size() == windowSize){
-        // performDetection(packetQueue);
+        performDetection(packetQueue);
         packetQueue.pop();
     }
 }
@@ -217,7 +218,7 @@ bool Capture::start_pfring_packet_preprocessing(const char *dev) {
         "Using PF_RING v{}.{}.{}",
             (version & 0xFFFF0000) >> 16,
             (version & 0x0000FF00) >> 8,
-            version & 0x000000FF
+            (version & 0x000000FF)
     );
 
     // Set socket mode to RECEIVE ONLY
