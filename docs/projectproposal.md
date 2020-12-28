@@ -73,11 +73,11 @@ Gathering the necessary information for the decision module to decide if there i
 - To calculate entropy we need to get the flow count. In particular, for the SYN attack, packets will only be counted if the Flags are set to: <span style="font-family:Roboto; font-size:1em;"> {(SYN); (ACK); (RST); (FIN); (SYN,ACK); (SYN,RST); (FIN/ACK)} </span>
     For example (10.0.0.1 is an **attribute**):
 
-    |  dst_ip | Flow count  |
-    |---------|-------------|
-    |10.0.0.1 |   350       |
-    |10.0.0.2 |   350       |
-    |10.0.0.3 |   300       |
+    | dst_ip   | Flow count |
+    | -------- | ---------- |
+    | 10.0.0.1 | 350        |
+    | 10.0.0.2 | 350        |
+    | 10.0.0.3 | 300        |
 
 - Pass the flow count information of all fields to the decision module to determine if there is a SYN attack going on.
 
@@ -117,7 +117,7 @@ $$E_{dst\_ip} = -\sum_{n=0}^{M-1}P_{dst\_ip_{n}}log(P_{dst\_ip_{n}}))$$
     $$ \sigma_{diff} = \sqrt{\frac{1}{tw}\sum_{w=0}^{tw-1}((E_{attr}(w+1)-E_{attr}(w))-m_{i})^{2}} $$
 
 - Maximum and minimum of entropy differences between consecutive windows in all 50 windows:
-    - $$ (E_{attr}(w+1)-E_{attr}(w+1))_{max} $$
+    - $$ (E_{attr}(w+1)-E_{attr}(w))_{max} $$
     - $$ (E_{attr}(w+1)-E_{attr}(w))_{min} $$
 
 - Maximum and minimum of entropy values of all attributes in all windows:

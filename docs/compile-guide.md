@@ -1,11 +1,11 @@
-Compile: 
-g++ -o ../bin/fireflow detection.cpp entropy.cpp fireflow.cpp capture.cpp process_packet.cpp -lpfring -lpcap
+**COMPILE:**
+g++ -o ../bin/fireflow \*.cpp -lpfring -lpcap
 
->>> But before that:
+*But before that...*
 
-INSTALL PF_RING:
+**INSTALL PF_RING:**
 apt-get install pfring
 
-INSTALL SPDLOG:
+**INSTALL SPDLOG:**
 Follows the guide on: https://github.com/gabime/spdlog.
 Then, copies the folder spdlog/ at include/ to /usr/local/include.
