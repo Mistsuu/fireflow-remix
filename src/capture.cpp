@@ -58,14 +58,14 @@ Capture::Capture(string _interface_, string _debugLogPath_, string _packetLogPat
 void Capture::initLogging() {
     // Create log files.
     try {
-        debugLogger  = rotating_logger_mt("debugLog",  debugLogPath,  3 MB, 3);
+        debugLogger  = rotating_logger_mt("debugLog",  debugLogPath,  3 KB, 3);
     } catch (const spdlog_ex& exception) {
         cerr << "Debug log opened failed! Error: " << exception.what() << endl;
         exit(DEBUG_LOG_OPENED_FAILED_ERROR_CODE);
     }
 
     try {
-        packetLogger = rotating_logger_mt("packetLog", packetLogPath, 3 MB, 3);
+        packetLogger = rotating_logger_mt("packetLog", packetLogPath, 15 MB, 3);
     } catch (const spdlog_ex& exception) {
         cerr << "Packet log opened failed! Error: " << exception.what() << endl;
         exit(PACKET_LOG_OPENED_FAILED_ERROR_CODE);
@@ -157,13 +157,9 @@ void Capture::parsing_pfring_packet(const struct pfring_pkthdr *header, const u_
     if (currentPacket.protocol == IPPROTO_TCP) currentPacket.flags = header->extended_hdr.parsed_pkt.tcp.flags;
     else                                       currentPacket.flags = 0;
 
-    // Add packet to queue.
-    packetQueue.push(currentPacket);
+    // Handle this new packet.
     writeToPacketLogger(currentPacket);
-    if (packetQueue.size() == windowSize){
-        performDetection(packetQueue);
-        packetQueue.pop();
-    }
+    processPacket(currentPacket, packetQueue, windowSize);
 }
 
 /*
@@ -182,7 +178,7 @@ bool Capture::start_pfring_packet_preprocessing(const char *dev) {
     bool useExtendedPKTHeader=true;     // PF_RING fills the field extended_hdr of struct pfring_pkthdr to get extra information
     bool enableHWTimestamp=false;       // Get timestamp from hardware.
     bool dontStripTimestamps=false;     // Don't strip hardware timestamp from the packets.
-    bool PFRingKerelParser=true;        // Enable packet parsing.
+    bool PFRingKernelParser=true;       // Enable packet parsing.
 
     // Set flags.
     uint32_t flags;
@@ -190,7 +186,7 @@ bool Capture::start_pfring_packet_preprocessing(const char *dev) {
     if (promiscuousMode)      flags |= PF_RING_PROMISC;
     if (enableHWTimestamp)    flags |= PF_RING_HW_TIMESTAMP;
     if (!dontStripTimestamps) flags |= PF_RING_STRIP_HW_TIMESTAMP;
-    if (!PFRingKerelParser)   flags |= PF_RING_DO_NOT_PARSE;
+    if (!PFRingKernelParser)  flags |= PF_RING_DO_NOT_PARSE;
     flags |= PF_RING_DNA_SYMMETRIC_RSS;
 
     // Use snaplen similar to 'fastnetmon' source code.

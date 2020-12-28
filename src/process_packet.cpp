@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include "packet.h"
+#include "detection.h"
 
 #define TCP_FIN_FLAG_SHIFT 1
 #define TCP_SYN_FLAG_SHIFT 2
@@ -13,6 +14,14 @@
 
 using namespace std;
 
+void processPacket(Packet& packet, queue<Packet>& packetQueue, int& windowSize) {
+    packetQueue.push(packet);
+    if (packetQueue.size() == windowSize) {
+        performDetection(packetQueue);
+        packetQueue.pop();
+    }
+}
+
 int extractBitValue(uint8_t& num, int bit) {
     if (bit > 0 && bit <= 8) return ((num >> (bit - 1)) & 1);
     else                     return 0;
@@ -20,10 +29,10 @@ int extractBitValue(uint8_t& num, int bit) {
 
 string getStringIP(uint32_t& intIP) {
     return 
-        to_string((intIP >> 24) & 0xff) + "." +
-        to_string((intIP >> 16) & 0xff) + "." +
+        to_string((intIP)       & 0xff) + "." +
         to_string((intIP >> 8)  & 0xff) + "." +
-        to_string((intIP)       & 0xff);
+        to_string((intIP >> 16) & 0xff) + "." +
+        to_string((intIP >> 24) & 0xff);
 }
 
 string getProtocol(uint8_t& protocol) {

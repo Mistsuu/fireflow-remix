@@ -9,7 +9,8 @@
 
     using namespace std;
 
-    map<uint32_t, double> getProbabilityMap(queue<Packet> packetQueue, int& windowSize);
-    double                getEntropy(queue<Packet>& packetQueue);
+    
+    template<typename T> void   getProbabilityMapICMP(map<T, double>& probabilityMap, queue<Packet> packetQueue, uint8_t& protocol);
+                         double getEntropy(queue<Packet>& packetQueue, uint8_t protocol);
 
 #endif
