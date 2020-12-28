@@ -1,6 +1,0 @@
-[28/12/2020 04:13:40.509] [info] Logger initialized!
-[28/12/2020 04:13:40.509] [info] PF_RING plugin started.
-[28/12/2020 04:13:40.509] [info] We selected interface: wlo1.
-[28/12/2020 04:13:40.537] [info] Sucessfully binded to: wlo1.
-[28/12/2020 04:13:40.537] [info] Device RX channels number: 1.
-[28/12/2020 04:13:40.537] [info] Using PF_RING v7.9.0
