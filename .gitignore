@@ -1,5 +1,5 @@
 # Prerequisites
-bin/*.o
+bin/*
 *.d
 
 # Compiled Object files
@@ -48,5 +48,4 @@ tmp/*
 
 # Ignore test, binary & log folders
 test/*
-bin/*
 log/*
