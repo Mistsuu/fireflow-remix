@@ -6,9 +6,9 @@
     #include <map>
     using namespace std;
 
-    template<typename T>
+    template<class T>
     void   updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize);
-    double getMean            (vector<double>& input                                                            );
-    void   CUSUM              (vector<double>& input, vector<double>& output, double beta                       );
+    double getMean(vector<double>& input);
+    void   CUSUM(vector<double>& input, vector<double>& output, double beta);
 
 #endif

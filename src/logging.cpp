@@ -11,12 +11,12 @@
 
 using namespace std;
 
-inline int extractBitValue(uint8_t& num, int bit) {
+int extractBitValue(uint8_t& num, int bit) {
     if (bit > 0 && bit <= 8) return ((num >> (bit - 1)) & 1);
     else                     return 0;
 }
 
-inline string getStringIP(uint32_t& intIP) {
+string getStringIP(uint32_t& intIP) {
     return 
         to_string((intIP)       & 0xff) + "." +
         to_string((intIP >> 8)  & 0xff) + "." +
@@ -24,14 +24,14 @@ inline string getStringIP(uint32_t& intIP) {
         to_string((intIP >> 24) & 0xff);
 }
 
-inline string getProtocol(uint8_t& protocol) {
+string getProtocol(uint8_t& protocol) {
     if      (protocol == IPPROTO_ICMP) return "ICMP";
     else if (protocol == IPPROTO_TCP)  return "TCP";
     else if (protocol == IPPROTO_UDP)  return "UDP";
     else                               return "-";
 }
 
-inline string getFlags(uint8_t& flags) {
+string getFlags(uint8_t& flags) {
     if (flags == 0)
         return "-";
 

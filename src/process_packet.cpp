@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <cmath>
+#include <iostream>
 #include "packet.h"
 #include "detection.h"
 #include "statistic.h"
@@ -40,11 +41,15 @@ void update(Packet* newPacket=NULL, Packet* oldPacket=NULL) {
 
 void processPacket(Packet& packet, int& _windowSize_) {
     packetQueue.push(packet);
-    if (packetQueue.size() == windowSize+1) {
+
+    if (packetQueue.size() == 1) 
+        windowSize = _windowSize_, update();
+    else if (packetQueue.size() == windowSize+1) {
         update(&packet, &packetQueue.front());
         packetQueue.pop();
         performDetection(packetQueue);
-    } 
-    else if (packetQueue.size() == 1) windowSize = _windowSize_, update();
-    else                              update(&packet);
+    }
+    else update(&packet);
+
+    cerr << packetQueue.size() << " " << srcIPEntropy << endl;
 }

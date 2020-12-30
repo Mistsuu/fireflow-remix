@@ -1,5 +1,6 @@
 #include <vector>
 #include <map>
+#include <cmath>
 #include "packet.h"
 
 #define loop(_i_, _n_)      for(int _i_ = 0;   _i_ <  _n_; ++_i_)
@@ -12,7 +13,7 @@ using namespace std;
         Update entropy and map from new data.
         By policy: "Add old, remove new."
 */
-template<typename T>
+template<class T>
 void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize) {
     if (!countMap.count(*pNewData)) countMap[*pNewData] = 1;
     else {
@@ -28,6 +29,9 @@ void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T*
         entropy += (countMap[*pNewData]+1) * log2(countMap[*pNewData]+1) / windowSize;
     }
 }
+
+template void updateEntropyAndMap<uint32_t>(map<uint32_t, int>& countMap, double& entropy, uint32_t* pNewData, uint32_t* pOldData, int& windowSize);
+template void updateEntropyAndMap<uint16_t>(map<uint16_t, int>& countMap, double& entropy, uint16_t* pNewData, uint16_t* pOldData, int& windowSize);
 
 /*
     getMean():

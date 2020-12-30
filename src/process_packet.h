@@ -2,7 +2,6 @@
 
     #define PROCESS_PACKET_HEADER
 
-    #include <queue>
     #include "packet.h"
 
     using namespace std;

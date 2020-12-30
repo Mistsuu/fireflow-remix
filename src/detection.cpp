@@ -2,8 +2,6 @@
 #include <map>
 #include <iostream>
 #include "packet.h"
-#include "entropy.h"
-#include "statistic.h"
 
 using namespace std;
 

@@ -6,7 +6,6 @@
 #include "packet.h"
 #include "process_packet.h"
 #include "detection.h"
-#include "entropy.h"
 using namespace std;
 
 Capture *captureInterface=NULL;
@@ -20,9 +19,9 @@ int main(int argc, char* argv[]){
     // Parse data from arguments.
     string interface, debugLogPath, packetLogPath;
     int    windowSize = 0;
-    app.add_option("-i,--interface", interface,      "Capture interface")->required();
-    app.add_option("-l",             debugLogPath,   "Where to dump log file")->default_val("/tmp/fireflow-log.txt");
-    app.add_option("-p",             packetLogPath,  "Where to dump packet log")->default_val("/tmp/packetlogger.txt");
+    app.add_option("-i,--interface", interface,      "Capture interface"            )->required();
+    app.add_option("-l",             debugLogPath,   "Where to dump log file"       )->default_val("/tmp/fireflow-log.txt");
+    app.add_option("-p",             packetLogPath,  "Where to dump packet log"     )->default_val("/tmp/packetlogger.txt");
     app.add_option("-w",             windowSize,     "The amount of packets to read")->default_val(1000);
     CLI11_PARSE(app, argc, argv);
 
