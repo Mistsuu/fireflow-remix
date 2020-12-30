@@ -11,6 +11,6 @@
     string getStringIP(uint32_t& intIP);
     string getProtocol(uint8_t& protocol);
     string getFlags(uint8_t& flags);
-    void   processPacket(Packet& packet, queue<Packet>& packetQueue, int& windowSize);
+    void   processPacket(Packet& packet, int& windowSize);
 
 #endif

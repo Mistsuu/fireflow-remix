@@ -10,6 +10,7 @@
 #include "capture.h"
 #include "detection.h"
 #include "process_packet.h"
+#include "logging.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 
@@ -23,7 +24,6 @@ string             Capture::interface;       // The interface to capture packet.
 string             Capture::debugLogPath;    // Path to debug log file.
 string             Capture::packetLogPath;   // Path to packet log file.
 int                Capture::windowSize;      // Size of the window of the capture.
-queue<Packet>      Capture::packetQueue;     // Queue of packets.
 
 
 // Defines return error codes.
@@ -105,8 +105,8 @@ void Capture::start_pfring_capture() {
 */
 void Capture::writeToPacketLogger(Packet& currentPacket) {
     packetLogger->info("{} {} {} {} {} {} {}",
-        getStringIP(currentPacket.srcIP), currentPacket.srcPort,
-        getStringIP(currentPacket.dstIP), currentPacket.dstPort,
+        getStringIP(currentPacket.srcIP),    currentPacket.srcPort,
+        getStringIP(currentPacket.dstIP),    currentPacket.dstPort,
         getProtocol(currentPacket.protocol), getFlags(currentPacket.flags),
         currentPacket.length
     );
@@ -159,7 +159,7 @@ void Capture::parsing_pfring_packet(const struct pfring_pkthdr *header, const u_
 
     // Handle this new packet.
     writeToPacketLogger(currentPacket);
-    processPacket(currentPacket, packetQueue, windowSize);
+    processPacket(currentPacket, windowSize);
 }
 
 /*
@@ -218,7 +218,7 @@ bool Capture::start_pfring_packet_preprocessing(const char *dev) {
     );
 
     // Set socket mode to RECEIVE ONLY
-    int pfring_socketmode_result = pfring_set_socket_mode(ring, recv_only_mode);
+    int pfring_socketmode_result = pfring_set_socket_mode(ring, socket_mode::recv_only_mode);
     if (pfring_socketmode_result != 0)
         debugLogger->info("pfring_set_socket_mode returned [rc={}].", pfring_socketmode_result);
 

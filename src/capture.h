@@ -26,8 +26,6 @@
             static string   packetLogPath;       // Path to packet log file.
             static int      windowSize;          // Size of the window of the capture.
 
-            static queue<Packet> packetQueue;    // Queue of packets.
-
             Capture(string interface, string debugLogPath, string packetLogPath, int windowSize);
             void        initLogging();
             void        start_pfring_capture();
