@@ -6,11 +6,8 @@
     #include "packet.h"
 
     using namespace std;
-
-    int    extractBitValue(uint8_t& num, int bit);
-    string getStringIP(uint32_t& intIP);
-    string getProtocol(uint8_t& protocol);
-    string getFlags(uint8_t& flags);
-    void   processPacket(Packet& packet, int& windowSize);
+    
+    void update(Packet* newPacket=NULL, Packet* oldPacket=NULL);
+    void processPacket(Packet& packet, int& windowSize);
 
 #endif

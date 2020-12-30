@@ -6,9 +6,9 @@
 
     using namespace std;
 
-    inline int extractBitValue(uint8_t& num, int bit);
-    inline string getStringIP(uint32_t& intIP);
-    inline string getProtocol(uint8_t& protocol);
-    inline string getFlags(uint8_t& flags);
+    int    extractBitValue(uint8_t& num, int bit);
+    string getStringIP(uint32_t& intIP);
+    string getProtocol(uint8_t& protocol);
+    string getFlags(uint8_t& flags);
 
 #endif

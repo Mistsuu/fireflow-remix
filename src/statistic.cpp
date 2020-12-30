@@ -10,6 +10,7 @@ using namespace std;
 /*
     updateEntropyAndMap():
         Update entropy and map from new data.
+        By policy: "Add old, remove new."
 */
 template<typename T>
 void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize) {
@@ -20,8 +21,7 @@ void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T*
         entropy += (countMap[*pNewData]-1) * log2(countMap[*pNewData]-1) / windowSize;
     }
 
-    if      (pOldData && !countMap.count(*pOldData)) assert(false);
-    else if (pOldData &&  countMap.count(*pOldData)) countMap[*pOldData]--;
+    if      (pOldData &&  countMap.count(*pOldData)) countMap[*pOldData]--;
     if      (pOldData && !countMap[*pOldData]      ) countMap.erase(*pOldData);
     else if (pOldData &&  countMap[*pOldData]      ) {
         entropy -= (countMap[*pNewData]  ) * log2(countMap[*pNewData]  ) / windowSize;
