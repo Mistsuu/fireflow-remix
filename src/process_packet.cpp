@@ -24,15 +24,11 @@ double srcPortEntropy = 0;
 double dstPortEntropy = 0;
 
 void update(Packet* newPacket=NULL, Packet* oldPacket=NULL) {
-    if (!newPacket) {
-        srcIPEntropy   = log2(windowSize);
-        srcPortEntropy = log2(windowSize);
-        dstPortEntropy = log2(windowSize);
-    } else if (!oldPacket) {
+    if (newPacket && !oldPacket) {
         updateEntropyAndMap(srcIPCount,   srcIPEntropy,   &newPacket->srcIP,   (uint32_t*)NULL, windowSize);
         updateEntropyAndMap(srcPortCount, srcPortEntropy, &newPacket->srcPort, (uint16_t*)NULL, windowSize);
         updateEntropyAndMap(dstPortCount, dstPortEntropy, &newPacket->dstPort, (uint16_t*)NULL, windowSize);
-    } else {
+    } else if (oldPacket) {
         updateEntropyAndMap(srcIPCount,   srcIPEntropy,   &newPacket->srcIP,   &oldPacket->srcIP,   windowSize);
         updateEntropyAndMap(srcPortCount, srcPortEntropy, &newPacket->srcPort, &oldPacket->srcPort, windowSize);
         updateEntropyAndMap(dstPortCount, dstPortEntropy, &newPacket->dstPort, &oldPacket->dstPort, windowSize);

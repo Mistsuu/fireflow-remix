@@ -8,26 +8,29 @@
 
 using namespace std;
 
-/*
-    updateEntropyAndMap():
-        Update entropy and map from new data.
-        By policy: "Add old, remove new."
-*/
 template<class T>
 void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize) {
-    if (!countMap.count(*pNewData)) countMap[*pNewData] = 1;
-    else {
-        countMap[*pNewData]++;
-        entropy -= (countMap[*pNewData]  ) * log2(countMap[*pNewData]  ) / windowSize;
-        entropy += (countMap[*pNewData]-1) * log2(countMap[*pNewData]-1) / windowSize;
+    
+    if (pNewData) { // Might add more constraints later on, and the rule still holds.
+        if (!countMap.count(*pNewData)) countMap[*pNewData] = 1;
+        else {
+            countMap[*pNewData]++;
+            entropy -= (countMap[*pNewData]  ) * log2(countMap[*pNewData]  ) / windowSize;
+            entropy += (countMap[*pNewData]-1) * log2(countMap[*pNewData]-1) / windowSize;
+        }
+        entropy += log2(windowSize) / windowSize;
     }
 
-    if      (pOldData &&  countMap.count(*pOldData)) countMap[*pOldData]--;
-    if      (pOldData && !countMap[*pOldData]      ) countMap.erase(*pOldData);
-    else if (pOldData &&  countMap[*pOldData]      ) {
-        entropy -= (countMap[*pNewData]  ) * log2(countMap[*pNewData]  ) / windowSize;
-        entropy += (countMap[*pNewData]+1) * log2(countMap[*pNewData]+1) / windowSize;
+    if (pOldData) { // Might add more constraints later on, and the rule still holds.
+        countMap[*pOldData]--;
+        if (countMap[*pOldData] == 0 ) countMap.erase(*pOldData);
+        else {
+            entropy -= (countMap[*pOldData]  ) * log2(countMap[*pOldData]  ) / windowSize;
+            entropy += (countMap[*pOldData]+1) * log2(countMap[*pOldData]+1) / windowSize;
+        }
+        entropy -= log2(windowSize) / windowSize;
     }
+
 }
 
 template void updateEntropyAndMap<uint32_t>(map<uint32_t, int>& countMap, double& entropy, uint32_t* pNewData, uint32_t* pOldData, int& windowSize);
