@@ -14,7 +14,7 @@ map<uint32_t, int> srcIPCount;
 map<uint16_t, int> srcPortCount;
 map<uint16_t, int> dstPortCount;
 
-// Queue of packets
+// Queue of packets.
 queue<Packet> packetQueue;
 int           windowSize;
 
@@ -46,6 +46,4 @@ void processPacket(Packet& packet, int& _windowSize_) {
         performDetection(packetQueue);
     }
     else update(&packet);
-
-    cerr << packetQueue.size() << " " << srcIPEntropy << endl;
 }
