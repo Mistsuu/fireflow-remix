@@ -9,7 +9,7 @@
 using namespace std;
 
 template<class T>
-void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize) {
+void update(map<T, int>& countMap, double& entropy, T* pNewData, T* pOldData, int& windowSize) {
     
     if (pNewData) { // Might add more constraints later on, and the rule still holds.
         if (!countMap.count(*pNewData)) countMap[*pNewData] = 1;
@@ -33,8 +33,8 @@ void updateEntropyAndMap(map<T, int>& countMap, double& entropy, T* pNewData, T*
 
 }
 
-template void updateEntropyAndMap<uint32_t>(map<uint32_t, int>& countMap, double& entropy, uint32_t* pNewData, uint32_t* pOldData, int& windowSize);
-template void updateEntropyAndMap<uint16_t>(map<uint16_t, int>& countMap, double& entropy, uint16_t* pNewData, uint16_t* pOldData, int& windowSize);
+template void update<uint32_t>(map<uint32_t, int>& countMap, double& entropy, uint32_t* pNewData, uint32_t* pOldData, int& windowSize);
+template void update<uint16_t>(map<uint16_t, int>& countMap, double& entropy, uint16_t* pNewData, uint16_t* pOldData, int& windowSize);
 
 /*
     getMean():

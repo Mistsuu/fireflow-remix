@@ -25,16 +25,16 @@ string             Capture::debugLogPath;    // Path to debug log file.
 string             Capture::packetLogPath;   // Path to packet log file.
 int                Capture::windowSize;      // Size of the window of the capture.
 
-
 // Defines return error codes.
 #define PF_RING_INIT_ERROR_CODE             -1
 #define DEBUG_LOG_OPENED_FAILED_ERROR_CODE  -2
 #define PACKET_LOG_OPENED_FAILED_ERROR_CODE -3
 
-// Defines size of programs
+// Defines size of logs
 #define GB * 1024 * 1024 * 1024
 #define MB * 1024 * 1024
 #define KB * 1024
+
 
 /*
     Capture() constructor:
@@ -55,6 +55,7 @@ Capture::Capture(string _interface_, string _debugLogPath_, string _packetLogPat
     initLogging():
         Create log files & settings.
 */
+
 void Capture::initLogging() {
     // Create log files.
     try {
